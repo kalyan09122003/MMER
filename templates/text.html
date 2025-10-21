@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Emotion Analysis - EmotiAI</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <img src="{{ url_for('static', filename='logo.png') }}" alt="EmotiAI Logo" style="width: 32px; height: 32px; border-radius: 8px; object-fit: contain; vertical-align: middle;">
+                </div>
+                <div>
+                    <div>EmotiAI</div>
+                    <div style="font-size: 0.7rem; color: #666666; font-weight: normal;">Emotion recognition System</div>
+                </div>
+            </div>
+            <button class="menu-toggle" aria-label="Toggle navigation">
+                <span class="menu-icon">☰</span>
+            </button>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/text" class="active">Text Analysis</a></li>
+                    <li><a href="/audio">Audio Analysis</a></li>
+                    <li><a href="/image">Image Analysis</a></li>
+                    <li><a href="/video">Video Analysis</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-icon">💬</div>
+            <h1>Text Emotion Analysis</h1>
+            <p>Analyze the emotional content of your text using advanced natural language processing algorithms.</p>
+        </section>
+
+        <!-- Two Column Layout -->
+        <div class="two-column">
+            <!-- Input Section -->
+            <div class="glass-card input-section">
+                <h2>📝 Enter Your Text</h2>
+                <textarea 
+                    id="textInput" 
+                    class="text-input" 
+                    placeholder="Type or paste your text here to analyze its emotional content..."
+                    maxlength="5000"
+                ></textarea>
+                <div class="char-count">
+                    <span id="charCount">0</span> characters
+                </div>
+                <button id="analyzeBtn" class="explore-btn mt-3" style="width: 100%;">
+                    <span id="analyzeText">🔍 Analyze Emotion</span>
+                    <span id="loadingSpinner" class="loading hidden"></span>
+                </button>
+            </div>
+
+            <!-- Results Section -->
+            <div class="glass-card results-section">
+                <h2>📊 Emotion Analysis Results</h2>
+                
+                <!-- Placeholder -->
+                <div id="resultsPlaceholder" class="results-placeholder">
+                    <div class="results-placeholder-icon">📊</div>
+                    <p>Enter text and click analyze to see emotion recognition results.</p>
+                </div>
+
+                <!-- Results -->
+                <div id="emotionResults" class="emotion-results">
+                    <!-- Dominant Emotion -->
+                    <div class="dominant-emotion">
+                        <h3>Dominant Emotion</h3>
+                        <div id="dominantEmotion" class="emotion-name">--</div>
+                        <div id="confidenceScore" class="confidence-score">Confidence: --%</div>
+                    </div>
+
+                    <!-- Emotion Bars -->
+                    <div class="emotion-bars">
+                        <div class="emotion-bar">
+                            <div class="emotion-label">
+                                <span class="emotion-name">Joy</span>
+                                <span id="joyPercentage" class="emotion-percentage">0%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div id="joyProgress" class="progress-fill"></div>
+                            </div>
+                        </div>
+
+                        <div class="emotion-bar">
+                            <div class="emotion-label">
+                                <span class="emotion-name">Sad</span>
+                                <span id="sadPercentage" class="emotion-percentage">0%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div id="sadProgress" class="progress-fill"></div>
+                            </div>
+                        </div>
+
+                        <div class="emotion-bar">
+                            <div class="emotion-label">
+                                <span class="emotion-name">Angry</span>
+                                <span id="angryPercentage" class="emotion-percentage">0%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div id="angryProgress" class="progress-fill"></div>
+                            </div>
+                        </div>
+
+                        <div class="emotion-bar">
+                            <div class="emotion-label">
+                                <span class="emotion-name">Fear</span>
+                                <span id="fearPercentage" class="emotion-percentage">0%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div id="fearProgress" class="progress-fill"></div>
+                            </div>
+                        </div>
+
+                        <div class="emotion-bar">
+                            <div class="emotion-label">
+                                <span class="emotion-name">Surprise</span>
+                                <span id="surprisePercentage" class="emotion-percentage">0%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div id="surpriseProgress" class="progress-fill"></div>
+                            </div>
+                        </div>
+
+                        <div class="emotion-bar">
+                            <div class="emotion-label">
+                                <span class="emotion-name">Disgust</span>
+                                <span id="disgustPercentage" class="emotion-percentage">0%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div id="disgustProgress" class="progress-fill"></div>
+                            </div>
+                        </div>
+
+                        <div class="emotion-bar">
+                            <div class="emotion-label">
+                                <span class="emotion-name">Neutral</span>
+                                <span id="neutralPercentage" class="emotion-percentage">0%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div id="neutralProgress" class="progress-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sample Texts Section -->
+        <div class="glass-card samples-section">
+            <h3>Try Sample Texts</h3>
+            <div class="sample-item" data-text="I just received amazing news about my promotion! I couldn't be happier right now.">
+                "I just received amazing news about my promotion! I couldn't be happier right now."
+            </div>
+            <div class="sample-item" data-text="The weather today is absolutely beautiful, making me feel so grateful and peaceful.">
+                "The weather today is absolutely beautiful, making me feel so grateful and peaceful."
+            </div>
+            <div class="sample-item" data-text="I'm feeling quite anxious about the upcoming presentation tomorrow morning.">
+                "I'm feeling quite anxious about the upcoming presentation tomorrow morning."
+            </div>
+            <div class="sample-item" data-text="This traffic is absolutely infuriating! I've been stuck here for over an hour.">
+                "This traffic is absolutely infuriating! I've been stuck here for over an hour."
+            </div>
+            <div class="sample-item" data-text="I can't believe what just happened. That was completely unexpected and shocking.">
+                "I can't believe what just happened. That was completely unexpected and shocking."
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>EmotiAI System</h3>
+                <p>Advanced multimodal emotion recognition using cutting-edge AI technology. Analyze emotions across text, audio, images, and video streams.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">API Reference</a></li>
+                    <li><a href="#">Research</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <div class="social-links">
+                    <a href="#" class="social-link">📧</a>
+                    <a href="#" class="social-link">💼</a>
+                    <a href="#" class="social-link">🐙</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2024 EmotiAI. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
+    

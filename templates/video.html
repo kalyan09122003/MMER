@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Emotion Analysis - EmotiAI</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <img src="{{ url_for('static', filename='logo.png') }}" alt="EmotiAI Logo" style="width: 32px; height: 32px; border-radius: 8px; object-fit: contain; vertical-align: middle;">
+                </div>
+                <div>
+                    <div>EmotiAI</div>
+                    <div style="font-size: 0.7rem; color: #666666; font-weight: normal;">Emotion recognition System</div>
+                </div>
+            </div>
+            <button class="menu-toggle" aria-label="Toggle navigation">
+                <span class="menu-icon">☰</span>
+            </button>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/text">Text Analysis</a></li>
+                    <li><a href="/audio">Audio Analysis</a></li>
+                    <li><a href="/image">Image Analysis</a></li>
+                    <li><a href="/video" class="active">Video Analysis</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-icon">📹</div>
+            <h1>Live Video Analysis</h1>
+            <p>Real-time emotion recognition from live video streams with facial recognition technology.</p>
+        </section>
+
+
+
+        <!-- Two Column Layout -->
+        <div class="two-column">
+            <!-- Video Section -->
+            <div class="glass-card input-section">
+                <h2>📹 Live Camera Feed</h2>
+                <div class="video-container">
+                    <video id="videoFeed" class="video-feed" autoplay muted></video>
+                    <div id="videoPlaceholder" class="video-placeholder">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">📹</div>
+                        <p>Click "Start Camera" to begin live emotion recognition</p>
+                    </div>
+                    <div id="liveIndicator" class="live-indicator">LIVE</div>
+                    <div class="video-controls">
+                        <button id="startCameraBtn" class="explore-btn">
+                            📹 Start Camera
+                        </button>
+                        <button id="stopCameraBtn" class="explore-btn hidden" style="background: #f44336;">
+                            ⏹️ Stop Camera
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="glass-card results-section">
+                <h2>📊 Live recognition</h2>
+                
+                <!-- Placeholder -->
+                <div id="resultsPlaceholder" class="results-placeholder">
+                    <div class="results-placeholder-icon">📊</div>
+                    <p>Start the camera to see real-time analysis insights.</p>
+                </div>
+
+                <!-- Results -->
+                <div id="emotionResults" class="emotion-results">
+                    <!-- Faces Detected -->
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                        <div>
+                            <span style="color: #b0bec5;">Faces Detected</span>
+                            <div id="facesCount" style="font-size: 2rem; font-weight: bold; color: #4fc3f7;">0</div>
+                        </div>
+                        <div>
+                            <span style="color: #b0bec5;">Status</span>
+                            <div id="analysisStatus" style="font-size: 1rem; font-weight: bold; color: #666;">Inactive</div>
+                        </div>
+                    </div>
+
+                    <!-- Dominant Emotion -->
+                    <div class="dominant-emotion">
+                        <h3>Dominant Emotion</h3>
+                        <div id="dominantEmotion" class="emotion-name">--</div>
+                        <div id="confidenceScore" class="confidence-score">Confidence: --%</div>
+                    </div>
+
+                    <!-- Emotion Bars -->
+                    <div class="emotion-bars">
+                        <div class="emotion-bar">
+                            <div class="emotion-label">
+                                <span class="emotion-name">Happy</span>
+                                <span id="happyPercentage" class="emotion-percentage">0%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div id="happyProgress" class="progress-fill"></div>
+                            </div>
+                        </div>
+
+                        <div class="emotion-bar">
+                            <div class="emotion-label">
+                                <span class="emotion-name">Sad</span>
+                                <span id="sadPercentage" class="emotion-percentage">0%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div id="sadProgress" class="progress-fill"></div>
+                            </div>
+                        </div>
+
+                        <div class="emotion-bar">
+                            <div class="emotion-label">
+                                <span class="emotion-name">Angry</span>
+                                <span id="angryPercentage" class="emotion-percentage">0%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div id="angryProgress" class="progress-fill"></div>
+                            </div>
+                        </div>
+
+                        <div class="emotion-bar">
+                            <div class="emotion-label">
+                                <span class="emotion-name">Fear</span>
+                                <span id="fearPercentage" class="emotion-percentage">0%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div id="fearProgress" class="progress-fill"></div>
+                            </div>
+                        </div>
+
+                        <div class="emotion-bar">
+                            <div class="emotion-label">
+                                <span class="emotion-name">Surprise</span>
+                                <span id="surprisePercentage" class="emotion-percentage">0%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div id="surpriseProgress" class="progress-fill"></div>
+                            </div>
+                        </div>
+
+                        <div class="emotion-bar">
+                            <div class="emotion-label">
+                                <span class="emotion-name">Disgust</span>
+                                <span id="disgustPercentage" class="emotion-percentage">0%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div id="disgustProgress" class="progress-fill"></div>
+                            </div>
+                        </div>
+
+                        <div class="emotion-bar">
+                            <div class="emotion-label">
+                                <span class="emotion-name">Neutral</span>
+                                <span id="neutralPercentage" class="emotion-percentage">0%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div id="neutralProgress" class="progress-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analysis Insights -->
+                <div class="mt-3">
+                    <h4 style="color: #4fc3f7; margin-bottom: 1rem;">Analysis Insights</h4>
+                    <div id="analysisInsights" style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 10px; color: #b0bec5;">
+                        Start the camera to see real-time analysis insights
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>EmotiAI System</h3>
+                <p>Advanced multimodal emotion recognition using cutting-edge AI technology. Analyze emotions across text, audio, images, and video streams.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">API Reference</a></li>
+                    <li><a href="#">Research</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <div class="social-links">
+                    <a href="#" class="social-link">📧</a>
+                    <a href="#" class="social-link">💼</a>
+                    <a href="#" class="social-link">🐙</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2024 EmotiAI. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
