@@ -130,7 +130,7 @@ http://localhost:5000
 
 | Endpoint         | Method | Input                                    | Output                         |
 | ---------------- | ------ | ---------------------------------------- | ------------------------------ |
-| `/predict_text`  | POST   | JSON (`{"text": "I'm so happy today!"}`) | Emotion label + probabilities  |
+| `/predict_text`  | POST   | "text": "I'm so happy today!"            | Emotion label + probabilities  |
 | `/predict_audio` | POST   | Audio file                               | Emotion label + probabilities  |
 | `/predict_image` | POST   | Image file                               | Emotion label + probabilities  |
 | `/video`         | POST   | Video file                               | Dominant emotion across frames |
